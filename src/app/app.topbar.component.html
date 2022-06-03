@@ -1,0 +1,24 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo">
+        <img src="assets/img/hrlogo260.png" alt="logo">
+        <span> MA2I HR</span>
+    </a>
+
+    <a class="p-link layout-menu-button layout-topbar-button" href="#" (click)="appMain.toggleMenu($event)">
+        <i class="pi pi-bars"></i>
+    </a>
+
+    <a class="p-link layout-topbar-menu-button layout-topbar-button" href="#" (click)="appMain.toggleTopMenu($event)">
+        <i class="pi pi-ellipsis-v"></i>
+    </a>
+
+    <div style="margin-right:20px ;" class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active':appMain.topMenuActive}">
+        <a class="p-link layout-topbar-button">
+           </a> <span style="place-self: center;">{{userName}}</span>
+            <!-- <a href="#" class="p-link layout-topbar-button">
+                <i class="pi pi-user"></i>
+                <span>Profile</span>
+            </a> -->
+            <p-menubar style="margin-left:20px" [model]="items"></p-menubar>
+    </div>
+</div>

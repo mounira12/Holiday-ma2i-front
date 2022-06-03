@@ -1,0 +1,82 @@
+.bco-grid-container{
+  margin-top:10px;
+}
+
+.bco-page-header{
+  border-bottom: 1px solid #c8c8c8;
+  padding-bottom: 10px;
+}
+
+.bco-page-header .title{
+  font-size: large;
+  font-weight: bold;
+}
+.bco-page-header .description{
+  color:gray;
+}
+
+.bco-grid{
+  margin-top:10px;
+}
+
+.bco-grid-filters{
+  margin-top:20px;
+  margin-bottom: 20px;
+}
+
+.bco-filter-input>input{
+  width: 200px;
+}
+
+.bco-grid-filters a{
+  margin-left:10px;
+  cursor: pointer;
+  text-decoration: underline #007ad9 !important;
+  color: #007ad9 !important;
+}
+
+.bco-filter-custom{
+  margin-top:10px;
+  border:1px solid #f3f2f1 !important;
+  transition: all .3s;
+  align-items: center;
+}
+
+.filter-item {
+  padding: 5px !important;
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+}
+
+.filter-item>*{
+  height: 25px;
+  width: 100%;
+}
+
+.group-body .header{
+  color:grey;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+.group-body .bco-body{
+  color:grey;
+}
+.custom-badge{
+  line-height: inherit !important;
+  color: #fff;
+}
+
+.details{
+  width: 50%;
+} 
+
+@media screen and (max-width:768px) {
+ .responsiveBadge{
+   margin-right: 30px;
+ }
+ .responsiveFirstBadge{
+  margin-right: 10px;
+}
+  }

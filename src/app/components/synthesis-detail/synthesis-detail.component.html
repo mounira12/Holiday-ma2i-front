@@ -1,0 +1,54 @@
+<p-table class="responsive-vertical" [value]="tmpHolidaySynthesisList"
+         [lazy]="true" [customSort]="true">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th data-label="Type" style="text-align:center" colspan="2">
+                Type
+            </th>
+            <th style="text-align:center">
+                <i [pTooltip]="Year1.value" placement="right">
+                    {{
+Year1.label
+                    }}
+                </i>
+                <i class="fa fa-chart-line fa-lg" (click)="openSideBarChart(Year1.label)" *ngIf="displayChartYear1"></i>
+            </th>
+            <th style="text-align:center">
+                <i [pTooltip]="Year2.value" placement="right">{{Year2.label}}  </i>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-columns="columns" let-rowData let-rowIndex="rowIndex" let-expanded="expanded">
+        <tr [pSelectableRow]="rowData">
+            <td data-label="Type" *ngIf="rowGroupMetadata[rowData.type.id].index === rowIndex"
+                [attr.rowspan]="rowGroupMetadata[rowData.type.id].size">
+                {{rowData.type.name}}
+            </td>
+            <td *ngIf="rowGroupMetadata[rowData.type.id].index === rowIndex" [attr.rowspan]="rowGroupMetadata[rowData.type.id].size">
+                <span *ngIf="rowData.type.applicationId==1 || rowData.type.applicationId==4">Acquis<br /></span>Pris <span *ngIf="rowData.type.applicationId==1 || rowData.type.applicationId==4"><br />Reste<br /></span>
+            </td>
+            <td [attr.data-label]="Year1.label">
+                <i style="float:right;" placement="right" (click)="edit(HolidaySynthesisYear1(rowData.type.id))" class="pi pi-user-edit text-2xl" *ngIf="haspermission && (rowData.type.applicationId==1 || rowData.type.applicationId==4)" [pTooltip]="'Modifier'">
+                </i>
+                
+                <app-synthesis-detail-year [HolidaySynthesis]="HolidaySynthesisYear1(rowData.type.id)">
+                </app-synthesis-detail-year>
+            </td>
+            <td [attr.data-label]="Year2.label">
+                <i  style="float:right;"  placement="right" (click)="edit(HolidaySynthesisYear2(rowData.type.id))" class="pi pi-user-edit text-2xl" *ngIf="haspermission && (rowData.type.applicationId==1 || rowData.type.applicationId==4)" [pTooltip]="'Modifier'">
+                </i>
+                <!--<a (click)="edit(HolidaySynthesisYear2(rowData.type.id))"  *ngIf="haspermission && (rowData.type.applicationId==1 || rowData.type.applicationId==4)"  [pTooltip]="'Modifier'">
+    <i style="float:right;" *ngIf="haspermission && (rowData.type.applicationId==1 || rowData.type.applicationId==4)" class="pi pi-edit" [pTooltip]="'Modifier'"
+       placement="right"></i>
+            </a>-->
+                <app-synthesis-detail-year [HolidaySynthesis]="HolidaySynthesisYear2(rowData.type.id)">
+                </app-synthesis-detail-year>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-sidebar [(visible)]="sidebar" position="right" [baseZIndex]="10000" (onHide)="HolidaySynthesis = null;"  [style]="{width:'40em'}">
+    <app-synthesis-edit-form [title]="title" [holidaySynthesis]="holidaySynthesis" [disabled]="readOnlyHoliday"
+                             (onSave)="save()" (onCancel)="cancel()">
+    </app-synthesis-edit-form>
+</p-sidebar>

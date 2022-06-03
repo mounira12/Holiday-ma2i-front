@@ -1,0 +1,61 @@
+<p-toast position="top-center" baseZIndex="500001"></p-toast>
+<p-confirmDialog baseZIndex="500001" header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+
+            <h5>Synthèse des congés</h5>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                <button pButton pRipple label="Détails demandes de congé" (click)="goToHolidays()" icon="pi pi-info" iconPos="left" class="mr-2 mb-2"></button>
+                <button pButton pRipple label="Retour" (click)="back()" icon="pi pi-backward" iconPos="left" class="mr-2 mb-2"></button>
+            </div>
+
+            <div class="grid formgrid">
+                <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                    <p-autoComplete name="filterCollaborator" [(ngModel)]="filterCollaborator" placeholder="Rechercher par collaborateur"
+                                    [suggestions]="filterCollaboratorCollection" field="designation" [dropdown]="true" [size]="30"
+                                    (completeMethod)="searchCollaborator($event)"
+                                    (onSelect)="onCollaboratorSelected($event)" (onDropdownClick)="searchCollaborator($event)"
+                                    [style]="{'width':'100%'}" [inputStyle]="{'width':'calc(100% - 31px)'}"
+                                    [delay]="100"
+                                    emptyMessage="Saisissez au moins 2 caractères pour lancer la recherche."></p-autoComplete>
+                </div>
+                <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                    <p-dropdown [(ngModel)]="filterYear" [options]="years" [style]="{'width':'250px'}" optionLabel="label"
+                                (onChange)="initHolidays()"></p-dropdown>
+                </div>
+                <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                    <a href (click)="initFilters()" style="margin-left: 20px">Réinitialiser la recherche</a>
+                </div>
+            </div>
+
+            <br />
+            <div *ngIf="user == null || (user!=null && user.id == null)">
+                <div class="grid formgrid">
+                    <div class="col-12 mb-2 lg:col-12 lg:mb-0">
+                        <strong>Veuillez choisir un collaborateur pour visualiser son solde de congé</strong>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="user">
+                <div class="tab-panel-title"><strong>{{user.designation}}</strong></div>
+                <div class="row">
+                    <div class="col-md col-sm-4">
+                        <app-synthesis-detail (onSave)="save()" [user]="user" [HolidaySynthesisList]="listHolidaySynthesis" [DefaultYear]="filterYear">
+                        </app-synthesis-detail>
+                    </div>
+                     <div class="col-md col-sm-4 display-flex">
+         <div class="child-container" *ngIf="YearCols.length>=1" style="display:none;">
+             <app-holidays-per-type [reload]="reload" [userId]="user.id" [yearDesignation]="YearCols[0].label" [year]="YearCols[0].value"></app-holidays-per-type>
+         </div>
+         <div class="child-container" *ngIf="YearCols.length>1" style="display:none;">
+             <app-holidays-per-type [reload]="reload" [userId]="user.id" [yearDesignation]="YearCols[1].label" [year]="YearCols[1].value"></app-holidays-per-type>
+         </div>
+     </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+ 

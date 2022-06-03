@@ -1,0 +1,118 @@
+<p-toast position="top-center" baseZIndex="500001"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
+
+<form #f="ngForm" novalidate class="form-create" autocomplete="off" aria-autocomplete="none" *ngIf="holiday != null">
+    <div class="grid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <h5 *ngIf="holiday.id" style="font-weight:normal">Validation d'une demande de congé</h5>
+                <button *ngIf="holiday?.statusId == holidayStatusPending" pButton pRipple (click)="validateHoliday(holidayStatusValidated)" label="Accepter la demande de congé" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>
+                <button *ngIf="holiday?.statusId == holidayStatusPending" pButton pRipple (click)="validateHoliday(holidayStatusRefused)" label="Refuser la demande de congé" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>
+                <button *ngIf="holiday?.statusId == holidayStatusPendingCancelation" pButton pRipple (click)="validateCancelationHoliday(holidayStatusCanceled)" label="Accepter la demande d'annulation de congé" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>
+                <button *ngIf="holiday?.statusId == holidayStatusPendingCancelation" pButton pRipple (click)="validateCancelationHoliday(oldStatus)" label="Refuser la demande d'annulation de congé" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>
+                <button pButton pRipple (click)="synthesis()" label="Solde des congés" icon="pi pi-info" iconPos="left" class="mr-2 mb-2"></button>
+                <button pButton pRipple (click)="back()" label="Retour" icon="pi pi-undo" iconPos="left" class="mr-2 mb-2"></button>
+              </div>
+            <div class="card p-fluid">
+                <h4 style="font-weight:normal">Demandeur de congé <strong>{{holiday.user.designation}}</strong></h4>
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Statut</label>
+                    <div class="col-12 md:col-8">
+                        <span [style.background-color]="'rgb(3, 194, 252)'" *ngIf="holiday.statusId == holidayStatusPending"
+                              class="badge badgeSize custom-badge">Envoyée</span>
+                        <span [style.background-color]="'rgb(3, 194, 252)'" *ngIf="holiday.statusId == holidayStatusPendingCancelation"
+                              class="badge badgeSize custom-badge">En cours d'annulation</span>
+                        <span [style.background-color]="'Red'" *ngIf="holiday.statusId == holidayStatusRefused"
+                              class="badge badgeSize custom-badge">Refusée</span>
+                        <span [style.background-color]="'Green'" *ngIf="holiday.statusId == holidayStatusValidated"
+                              class="badge badgeSize custom-badge">Acceptée</span>
+                        <span [style.background-color]="'Red'" *ngIf="holiday.statusId == holidayStatusCanceled"
+                              class="badge badgeSize custom-badge">Annulée</span>
+                    </div>
+                </div>
+                <div class="field grid" *ngIf="ResponseDate!=null">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Date de la réponse</label>
+                    <div class="col-12 md:col-8">
+                        <p-calendar [disabled]="true" name="ResponseDate" #ResponseDateInput="ngModel" [(ngModel)]="ResponseDate"
+                                    dateFormat="dd/mm/yy" required [showIcon]="true" [style]="{'width':'100%'}">
+                        </p-calendar>
+                    </div>
+                </div>
+
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Date d'envoi de la demande de congé</label>
+                    <div class="col-12 md:col-8">
+                        <p-calendar [disabled]="true" name="SendDate" #SendDateInput="ngModel" [(ngModel)]="SendDate"
+                                    dateFormat="dd/mm/yy" required [showIcon]="true" [style]="{'width':'100%'}">
+                        </p-calendar>
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Date début de congé</label>
+                    <div class="col-12 md:col-8">
+
+                        <p-calendar [disabled]="true" name="StartDate" #StartDateInput="ngModel" [(ngModel)]="StartDate"
+                                    dateFormat="dd/mm/yy" required [showIcon]="true" [style]="{'width':'100%'}">
+                        </p-calendar>
+                    </div>
+                </div>
+
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0"></label>
+                    <div class="col-12 md:col-8">
+                        <p-checkbox [disabled]="true" [(ngModel)]="holiday.startDateIsFullDay" value="StartDateIsFullDay" name="StartDateIsFullDay"
+                                    label="Journée entière" #StartDateIsFullDayInput="ngModel" binary="true"></p-checkbox>
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Date fin de congé</label>
+                    <div class="col-12 md:col-8">
+                        <p-calendar [disabled]="true" name="EndDate" #EndDateInput="ngModel" [(ngModel)]="EndDate"
+                                    dateFormat="dd/mm/yy" required [showIcon]="true" [style]="{'width':'100%'}">
+                        </p-calendar>
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0"></label>
+                    <div class="col-12 md:col-8">
+                        <p-checkbox [disabled]="true" [(ngModel)]="holiday.endDateIsFullDay" value="EndDateIsFullDay" name="EndDateIsFullDay" spellcheck="true" #EndDateIsFullDayInput="ngModel"
+                                    label="Journée entière" binary="true"></p-checkbox>
+
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Nombre de jours ouvrés pris</label>
+                    <div class="col-12 md:col-8">
+
+                        <input [disabled]="true" name="NumberOfDay" class="form-control" type="text" pInputText
+                               [(ngModel)]="holiday.numberOfDay" maxlength="100" />
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Type</label>
+                    <div class="col-12 md:col-8">
+                        <input [disabled]="true" name="Type" class="form-control" type="text" pInputText
+                               [(ngModel)]="holiday.type.name" maxlength="100" />
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Raison</label>
+                    <div class="col-12 md:col-8">
+                        <textarea [disabled]="true" pInputTextarea name="reasonUser" class="form-control" #reasonUserInput="ngModel" [(ngModel)]="holiday.reasonUser"
+                                  required placeholder="Raison" [rows]="5" maxlength="450"></textarea>
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Commentaire</label>
+                    <div class="col-12 md:col-8">
+                        <textarea pInputTextarea name="reasonValidator" class="form-control" #reasonValidatorInput="ngModel" [(ngModel)]="holiday.reasonValidator"
+                                  required placeholder="Commentaire" [rows]="5" maxlength="450"></textarea>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+</form>
+      
+
+

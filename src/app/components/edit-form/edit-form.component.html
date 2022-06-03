@@ -1,0 +1,93 @@
+   <form (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate class="form-create">
+        <h5 style="font-weight:normal">{{title}}</h5>
+        <div class="card">
+            <div *ngIf="holiday != null">
+
+                <div class="grid p-fluid mt-3">
+                    <div *ngIf="IsAdmin"  class="field col-12 md:col-12" >
+                        <span class="p-float-label">
+                            <p-autoComplete  [disabled]="disabledCollaborator" inputId="Collaborator" name="Collaborator" [(ngModel)]="holiday.user" [suggestions]="filterCollaboratorCollection"
+                                            (completeMethod)="searchCollaborator($event)" forceSelection="true"
+                                            (onDropdownClick)="searchCollaborator($event)" field="designation" [size]="30"></p-autoComplete>
+                            <label for="Collaborator">Utilisateur</label>
+                        </span>
+                    </div>
+
+                    <div class="field col-12 md:col-12">
+                        <span class="p-float-label">
+                            <p-calendar inputId="startDate" [disabled]="disabled" name="startDate" #StartDateInput="ngModel" [(ngModel)]="startDate" [locale]="dateTimeService.fr"
+                                        dateFormat="dd/mm/yy" required [showIcon]="true" (change)="onChange()"
+                                        [ngClass]="{ 'ng-invalid ng-dirty': f.submitted &&  StartDateInput.errors }" (onSelect)="getNumberOfDay()" [minDate]="MinDate" [maxDate]="MaxDate"></p-calendar>
+                            <label for="startDate">Date début de congé</label>
+                        </span>
+                    </div>
+                    <div class="field col-12 md:col-12">
+                        <span class="field-checkbox mb-0">
+
+                            <p-checkbox inputId="startDateIsFullDay" [disabled]="disabled" [(ngModel)]="startDateIsFullDay" name="startDateIsFullDay"
+                                        label="Journée entière" #StartDateIsFullDayInput="ngModel" binary="true" (onChange)="getNumberOfDay($event)"></p-checkbox>
+                        </span>
+                    </div>
+
+                    <div class="field col-12 md:col-12">
+                        <span class="p-float-label">
+                            <p-calendar inputId="endDate" [disabled]="disabled" name="endDate" #EndDateInput="ngModel" [(ngModel)]="endDate" [locale]="dateTimeService.fr"
+                                        dateFormat="dd/mm/yy" required [showIcon]="true" [style]="{'width':'100%'}" (change)="onChange()"
+                                        [ngClass]="{ 'is-invalid':f.submitted && EndDateInput.errors }" (onSelect)="getNumberOfDay()"
+                                        [minDate]="MinDate" [maxDate]="MaxDate"></p-calendar>
+                            <label for="endDate">Date fin de congé</label>
+                        </span>
+                    </div>
+
+                    <div class="field col-12 md:col-12">
+                        <span class="field-checkbox mb-0">
+                            <p-checkbox inputId="endDateIsFullDay" [disabled]="disabled" [(ngModel)]="endDateIsFullDay" value="endDateIsFullDay" name="endDateIsFullDay" spellcheck="true" #EndDateIsFullDayInput="ngModel"
+                                        label="Journée entière" binary="true" (onChange)="getNumberOfDay($event)"></p-checkbox>
+
+                        </span>
+                    </div>
+
+                    <div class="field col-12 md:col-12">
+                        <span class="p-float-label">
+                            <input type="text" id="NumberOfDay" pInputText [disabled]="disabled" name="NumberOfDay" [(ngModel)]="holiday.numberOfDay"
+                                   class="form-control" maxlength="100" #LibelleInput="ngModel"
+                                   [ngClass]="{ 'is-invalid': f.submitted && LibelleInput.errors }" required pattern="[0-9]+(\.[0-9][0-9]?)?" (keypress)="numbersOnly($event)">
+                            <label for="NumberOfDay">Nombre de jours ouvrés pris</label>
+                        </span>
+                    </div>
+                    <div class="field col-12 md:col-12">
+                        <span class="p-float-label">
+                            <p-dropdown inputId="typeo" name="typeo" required="true" [disabled]="disabled" #typeInput="ngModel"
+                                        filterPlaceholder="Type" [options]="types" optionLabel="name" [style]="{'width':'100%'}"
+                                        [(ngModel)]="HolidayTypeModel" #typesInput="ngModel" (onChange)="getNumberOfDay()"
+                                        [ngClass]="{ 'is-invalid': f.submitted && typeInput.errors }"></p-dropdown>
+                            <label for="typeo">Type</label>
+                        </span>
+                    </div>
+                    <div class="field col-12 md:col-12">
+                        <span class="p-float-label">
+                            <textarea inputId="comment" [disabled]="disabled" pInputTextarea name="comment" class="form-control" #commentInput="ngModel" [(ngModel)]="holiday.reasonUser"
+                                      [rows]="3" maxlength="450"></textarea>
+                            <label for="comment">Commentaire</label>
+                        </span>
+                    </div>
+
+                    <!--  <div class="field col-12 md:col-12">
+        <span class="p-float-label">
+            <p-fileUpload [disabled]="disabled" name="file" accept=".pdf,.docx" (uploadHandler)="onUpload($event)" customUpload="true" [auto]="true" chooseLabel="Choisir le fichier">
+            </p-fileUpload>
+            <label for="file">  Pièce jointe</label>
+        </span>
+    </div>-->
+                </div>
+
+                <button pButton pRipple type="submit" *ngIf="!disabled" label="Enregistrer" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>
+                
+                <!--<div class="bco-tools">
+        <div class="item"><button type="submit" *ngIf="!disabled"><i class="fa fa-save"></i>Enregistrer</button></div>
+        <div class="item"><button type="button" (click)="cancel(f)"><i class="fa fa-undo"></i>Retour</button></div>
+    </div>-->
+            </div>
+        </div>
+</form>
+   <button pButton pRipple (click)="cancel(f)" label="Retour" icon="pi pi-undo" iconPos="left" class="mr-2 mb-2"></button>

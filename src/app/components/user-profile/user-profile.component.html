@@ -1,0 +1,69 @@
+<p-toast position="top-center" baseZIndex="500001"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
+<form (ngSubmit)="f.form.valid && save(f)" #f="ngForm">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <div *ngIf="userId == null" class="card-header card-header-danger">
+                    <h4 class="card-title">Ajout de nouveau utilisateur</h4>
+                </div>
+                <div *ngIf="userId != null" class="card-header card-header-danger">
+                    <h4 class="card-title">Mise à jour d'un utilisateur</h4>
+                </div>
+                <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                    <button *ngIf="!isEdit" pButton pRipple label="Enregistrer" type="submit" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>
+                </div>
+
+                <div class="grid formgrid">
+                    <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                        <input pInputText type="text" name="FirstName" placeholder="Prénom" [(ngModel)]="user.FirstName" required>
+
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                        <input pInputText type="text" name="LastName" placeholder="Nom" [(ngModel)]="user.LastName" required>
+
+                    </div>
+
+                </div>
+
+                <h5></h5>
+                <div class="grid formgrid">
+                    <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                        <input pInputText name="Email" placeholder="Addresse email" type="email" [(ngModel)]="user.Email" required>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                        <input pInputText type="text" name="PhoneNumber" placeholder="Téléphone" [(ngModel)]="user.PhoneNumber" required>
+                    </div>
+                </div>
+                <h5></h5>
+                <div class="grid formgrid">
+                    <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                        <input pInputText type="text" name="Profession" placeholder="Profession" [(ngModel)]="user.Profession" required>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                        <input pInputText name="Adress" placeholder="Adress" [(ngModel)]="user.Adress">
+                    </div>
+                </div>
+                <h5></h5>
+                <div class="grid formgrid">
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <input pInputText name="City" placeholder="Ville" type="text" [(ngModel)]="user.City">
+                    </div>
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <input pInputText name="Country" placeholder="Pays" type="text" [(ngModel)]="user.Country">
+                    </div>
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <input pInputText name="PostalCode" placeholder="Code postal" type="text" [(ngModel)]="user.PostalCode">
+                    </div>
+                </div>
+                <h5></h5>
+                <div class="grid formgrid">
+                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                        <p-checkbox inputId="isAdmin" [(ngModel)]="user.IsAdmin" value="isAdmin" name="isAdmin" spellcheck="true" #EndDateIsFullDayInput="ngModel"
+                                    label="Administrateur" binary="true"></p-checkbox>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+</form>

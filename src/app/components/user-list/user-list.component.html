@@ -1,0 +1,53 @@
+<p-toast position="top-center" baseZIndex="500001"></p-toast>
+<p-confirmDialog baseZIndex="500001" header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+
+            <h5>Gestion des utilisateurs</h5>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0"   *ngIf="IsAdmin">
+                <button pButton pRipple label="Nouveau utilisateur" (click)="addUser();" icon="pi pi-user-plus" iconPos="left" class="mr-2 mb-2"></button>
+            </div>
+            <p-table [value]="usersList" dataKey="Id"
+                     [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Prénom Nom</th>
+                        <th class="d-none d-xss-block">Email</th>
+                        <th class="d-none d-xss-block">Profession</th>
+                        <th class="d-none d-xss-block">Téléphone</th>
+                        <th class="d-none d-lg-block">Pays</th>
+                        <th class="d-none d-lg-block"  *ngIf="IsAdmin">Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{rowData.designation}}</td>
+                        <td class="d-none d-xss-block">{{rowData.email}}</td>
+                        <td class="d-none d-xss-block">{{rowData.profession}}</td>
+                        <td class="d-none d-xss-block">{{rowData.phoneNumber}}</td>
+                        <td class="d-none d-lg-block">{{rowData.country}}</td>
+                        <td class="d-none d-lg-block"   *ngIf="IsAdmin">
+                            <i class="pi pi-user-edit text-2xl" (click)="openDialog(rowData)" style="padding-right: 10px;"></i>
+                            <i class="pi pi-trash text-2xl" *ngIf="rowData.email != userEmail"  (click)="delete(rowData.id)"></i>
+                        </td>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="colspan">
+                            Pas de données à afficher!
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div style="text-align: left">
+                        Total : {{totalRecords}} utilisateur(s)
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+        </div>
+    </div>
+

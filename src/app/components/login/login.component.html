@@ -1,0 +1,49 @@
+<form method="post" [formGroup]="loginForm" (ngSubmit)="login($event)" action="#" novalidate>
+    <div class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+        <div class="grid justify-content-center p-2 lg:p-0" style="min-width:80%">
+            <div class="col-12 mt-5 xl:mt-0 text-center">
+            </div>
+
+            <div class="col-12 xl:col-6" style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+                <div class="h-full w-full m-0 py-7 px-4" style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
+                    <div class="text-center mb-5">
+                        <img src="assets/img/hrlogo260.png" alt="Image" height="50" class="mb-3">
+                        <div class="text-900 text-3xl font-medium mb-3">S'authentifier</div>
+                        <span class="text-600 font-medium">
+                            <p-message severity="error" *ngIf="submitted && loginError" text="Login ou mot de passe incorrect."></p-message>
+                        </span>
+                    </div>
+                    
+                    <div class="w-full md:w-10 mx-auto">
+                        <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
+                        <input id="email" type="email" name="email" formControlName="Email" placeholder="Email" pInputText class="w-full mb-3" style="padding:1rem;">
+                        <div *ngIf="submitted && f.Email.errors" class="text-danger invalid-feedback">
+                            <p-message severity="error" *ngIf="f.Email.errors.required" text="Email obligatoire."></p-message>
+                            <p-message severity="error" *ngIf="f.Email.errors.maxlength" text="Maximum 100 caractères."></p-message>
+                            <p-message severity="error" *ngIf="f.Email.errors.pattern" text="Format invalide."></p-message>
+                        </div>
+                        <label for="password1" class="block text-900 text-xl  font-medium mb-2">Mot de passe</label>
+                        <p-password id="password1" name="password" formControlName="Password" [(ngModel)]="password" inputStyleClass="w-full" placeholder="Mot de passe" [toggleMask]="true" styleClass="w-full mb-3"></p-password>
+                        <div *ngIf="submitted && f.Password.errors" class="text-danger invalid-feedback" 
+                             style="font-size: 80%; color: #dc3545;">
+                            <p-message severity="error" *ngIf="f.Password.errors.required" text="Mot de passe obligatoire."></p-message>
+                            <p-message severity="error" *ngIf="f.Password.errors.pattern" text="Format invalide."></p-message>
+                        </div>
+                        <div class="flex align-items-center justify-content-between mb-5">
+                            <div class="flex align-items-center">
+                                <p-checkbox id="rememberme1" formControlName="RememberMe" name="rememberMe" [binary]="true" styleClass="mr-2"></p-checkbox>
+                                <label for="rememberme1">Se souvenir de moi</label>
+                            </div>
+                            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)" href="#" (click)="gotoResetPassword()">Mot de passe oublié ?</a>
+                        </div>
+                        <button pButton pRipple label="Se connecter" class="w-full p-3 text-xl">
+                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" style="color:white;" role="status"
+                                  aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    </div>
+            </div>
+
+        </div>
+    </div>
+</form>

@@ -1,0 +1,69 @@
+<form (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate class="form-create">
+    <h5 style="font-weight:normal">{{title}}</h5>
+    <div class="card">
+        <div *ngIf="holidaySynthesis != null">
+            <div class="grid p-fluid mt-3">
+                <div class="field col-12 md:col-12">
+                    <span class="p-float-label">
+                        <p-autoComplete [disabled]="true" inputId="Collaborator" name="Collaborator" [(ngModel)]="holidaySynthesis.user"
+                                        field="designation" [dropdown]="true" [size]="30"
+                                        [style]="{'width':'100%'}" [inputStyle]="{'width':'calc(100% - 31px)'}"
+                                        [delay]="100"></p-autoComplete>
+                        <label for="Collaborator">Utilisateur</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-12">
+                    <span class="p-float-label">
+                        <input [disabled]="true" type="text" id="Year" name="Year" pInputText [(ngModel)]="holidaySynthesis.period"
+                               class="form-control" maxlength="100" #LibelleInput="ngModel"
+                               [ngClass]="{ 'is-invalid': f.submitted && LibelleInput.errors }">
+                        <label for="Year"> Année {{holidaySynthesis.yearDesignation}} :</label>
+                    </span>
+                </div>
+
+                <div class="field col-12 md:col-12">
+                    <span class="p-float-label">
+                        <input type="text" id="NumberOfDayAutorized" name="NumberOfDayAutorized" [pKeyFilter]="num"
+                               [ngModel]="focused == false ? (formatValue(holidaySynthesis.numberOfDayAutorized) | currency:' ':'symbol':format()) : holidaySynthesis.numberOfDayAutorized"
+                               pInputText class="form-control" maxlength="100" #NumberOfDayAutorizedInput="ngModel"
+                               (ngModelChange)="holidaySynthesis.numberOfDayAutorized=formatValue($event)"
+                               (onChange)="UpdateNumberOfDay(1)" [ngClass]="{ 'is-invalid': f.submitted && NumberOfDayAutorizedInput.errors }">
+                        <label for="NumberOfDayAutorized">Solde de congé :</label>
+                    </span>
+                </div>
+
+                <div class="field col-12 md:col-12">
+                    <span class="p-float-label">
+                        <input type="text" id="NumberOfDayTaken" name="NumberOfDayTaken" [pKeyFilter]="num"
+                               [ngModel]="focused == false ? (formatValue(holidaySynthesis.numberOfDayTaken) | currency:' ':'symbol':format()) : holidaySynthesis.numberOfDayTaken"
+                               pInputText class="form-control" maxlength="100" #NumberOfDayTakenInput="ngModel"
+                               (ngModelChange)="holidaySynthesis.numberOfDayTaken=formatValue($event)"
+                               (onChange)="UpdateNumberOfDay(2)" [ngClass]="{ 'is-invalid': f.submitted && NumberOfDayTakenInput.errors }">
+
+                        <label for="NumberOfDayTaken"> Nb jours pris : </label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-12">
+                    <span class="p-float-label">
+                        <input type="text" id="NumberOfDayRemaining" name="NumberOfDayRemaining" [pKeyFilter]="num"
+                               [ngModel]="focused == false ? (formatValue(holidaySynthesis.numberOfDayRemaining) | currency:' ':'symbol':format()) : holidaySynthesis.numberOfDayRemaining"
+                               pInputText class="form-control" maxlength="100" #NumberOfDayRemainingInput="ngModel"
+                               (ngModelChange)="holidaySynthesis.numberOfDayRemaining=formatValue($event)"
+                               (onChange)="UpdateNumberOfDay(3)" [ngClass]="{ 'is-invalid': f.submitted && NumberOfDayRemainingInput.errors }">
+
+                        <app-money-input ValueType="num" name="NumberOfDayRemaining" [(ngModel)]="holidaySynthesis.numberOfDayRemaining" [maxlengthvalue]="10"
+                                         #NumberOfDayRemainingInput="ngModel" [class]="{ 'is-invalid': f.submitted && NumberOfDayRemainingInput.errors }" required
+                                         (onChange)="UpdateNumberOfDay(3)"></app-money-input>
+                        <label for="NumberOfDayRemaining">Nb jours restant :  </label>
+                    </span>
+                </div>
+
+            </div>
+            <button pButton pRipple type="submit" *ngIf="!disabled" label="Enregistrer" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>
+
+           
+        </div>
+    </div>
+</form>
+<button pButton pRipple (click)="cancel(f)" label="Retour" icon="pi pi-undo" iconPos="left" class="mr-2 mb-2"></button>
+
