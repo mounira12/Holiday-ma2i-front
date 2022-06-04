@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-    API_SERVICE_URL: "http://192.168.100.103:91/",
-  API_URL: "http://192.168.100.103:91/api/v1.0/"
+    API_SERVICE_URL: "https://pfe-holiday-backend.herokuapp.com/",
+    API_URL: "https://pfe-holiday-backend.herokuapp.com/api/v1.0/"
 };
 /*
  * For easier debugging in development mode, you can import the following file
