@@ -144,11 +144,12 @@ initData() {
          
         let successMessage = { severity: 'success', summary: messsageSuccess };
         let errorMessage = { severity: 'error', summary: "Une erreur est surevenue lors de votre sauvegarde" };
-        this.holidayService.validateHoliday(this._holidayRequest).subscribe((response: number) => {
+        this.holidayService.validateHoliday(this._holidayRequest).subscribe((response: any) => {
           this.loaderService.hideLoader();
-          if (response) {
-            setTimeout(() => { this.messageService.add(successMessage); }, 400);
-              this.router.navigate(['../..'], { relativeTo: this.route });
+        if (response) {
+          setTimeout(() => { this.messageService.add(successMessage);  }, 400);
+          this.location.back();
+          // this.router.navigate(['../..'], { relativeTo: this.route });
               return true;
           }
           else {
@@ -185,11 +186,13 @@ initData() {
           this._holidayRequest.ValidatorEmail = this.validatorEmail
         let successMessage = { severity: 'success', summary: messsageSuccess };
         let errorMessage = { severity: 'error', summary: "Une erreur est surevenue lors de votre sauvegarde" };
-        this.holidayService.validateHoliday(this._holidayRequest).subscribe((response: number) => {
+        this.holidayService.validateHoliday(this._holidayRequest).subscribe((response: any) => {
           this.loaderService.hideLoader();
           if (response) {
             setTimeout(() => { this.messageService.add(successMessage); }, 400);
-            this.router.navigate(['../..'], { relativeTo: this.route });
+            this.location.back(); 
+            // this.router.navigate(['../..'], { relativeTo: this.route });
+
           }
           else {
             this.messageService.add(errorMessage);
