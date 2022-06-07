@@ -13,7 +13,7 @@ export class HolidayModel  {
   ResponseDate: Date | null;
   startDateIsFullDay: boolean;
   endDateIsFullDay: boolean;
-  NumberOfDay: number | null;
+  numberOfDay: number | null;
   TypeId: number;
     userFullName: string;
     userId: string;

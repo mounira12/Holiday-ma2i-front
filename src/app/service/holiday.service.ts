@@ -13,7 +13,7 @@ import { HolidayRequestModel } from "../models/holiday/holidayRequest.model";
 import { HolidaySynthesisModel } from "../models/holiday/holidaySynthesis.model";
 @Injectable()
 export class HolidayService {  
-  baseUrl:string ='https://localhost:44358';
+  //baseUrl:string ='https://localhost:44358';
   constructor(private http: HttpClient) { }
 
   getHttpHeader(params = {}) {
@@ -33,43 +33,43 @@ export class HolidayService {
   }
 
     getAllUsers(): Observable<any> {
-        return this.http.get<any>(this.baseUrl +'/account/Get', this.getHttpHeader());
+        return this.http.get<any>(AppConsts.API_SERVICE_URL +'account/Get', this.getHttpHeader());
     }
 
   getAllHolidays(): Observable<any>{
-      return this.http.get<any>(this.baseUrl + '/holiday/all', this.getHttpHeader());
+      return this.http.get<any>(AppConsts.API_SERVICE_URL+ 'holiday/all', this.getHttpHeader());
   }
 
   login(model: LoginModel): Observable<any>{
-      return this.http.post<any>(this.baseUrl +'/account/Login' , model);
+      return this.http.post<any>(AppConsts.API_SERVICE_URL +'/account/Login' , model);
   }
 
   saveUser(model: UserModel): Observable<any>{
     if(model.id)
-    return this.http.post<any>( this.baseUrl+'/account/EditUser',model);
-    return this.http.post<any>( this.baseUrl+'/account/Register',model);
+    return this.http.post<any>( AppConsts.API_SERVICE_URL+'account/EditUser',model);
+    return this.http.post<any>( AppConsts.API_SERVICE_URL+'account/Register',model);
   }
 
   deleteUser(userId: string): Observable<any>{
     let params = new HttpParams().set('userId', userId);
 
-    return this.http.get<any>( this.baseUrl+'/account/DeleteUser', { params: params });
+    return this.http.get<any>( AppConsts.API_SERVICE_URL+'account/DeleteUser', { params: params });
   }
 
   getUserById(userId: string): Observable<UserModel>{
     let params = new HttpParams().set('userId', userId);
 
-    return this.http.get<UserModel>( this.baseUrl+'/account/GetUserById', { params: params });
+    return this.http.get<UserModel>( AppConsts.API_SERVICE_URL+'account/GetUserById', { params: params });
     }
 
     getHolidaysByFilterRequest(request: HolidayFilterRequest): Observable<any> {
         let httpOptions = this.getHttpHeader(request);
-        var result = this.http.get(this.baseUrl + '/holiday/allByFilterRequest', httpOptions);
+        var result = this.http.get(AppConsts.API_SERVICE_URL+ 'holiday/allByFilterRequest', httpOptions);
         return result;
 
     }
     getAllHolidayTypes(): Observable<HolidayTypeModel[]> {
-        return this.http.get(this.baseUrl +'/holidayType/all', this.getHttpHeader()) as Observable<HolidayTypeModel[]>;
+        return this.http.get(AppConsts.API_SERVICE_URL+'holidayType/all', this.getHttpHeader()) as Observable<HolidayTypeModel[]>;
     }
     saveHoliday(request: HolidayModelRequest): Observable<string> {
         let options = {
@@ -94,9 +94,9 @@ export class HolidayService {
         httpOptions.params = _.assign({ holidayId: holidayId }, httpOptions.params);
         return this.http.get<HolidayModel>(AppConsts.API_SERVICE_URL + "holiday/GetById", httpOptions);
     }
-    validateHoliday(holidayRequest: HolidayRequestModel): Observable<number> {
+    validateHoliday(holidayRequest: HolidayRequestModel): Observable<any> {
         let httpOptions = this.getHttpHeader();
-        return this.http.post<number>(AppConsts.API_SERVICE_URL + "holiday/validate", holidayRequest, httpOptions);
+        return this.http.post<any>(AppConsts.API_SERVICE_URL + "holiday/validate", holidayRequest, httpOptions);
     }
 
     getHolidaySynthesisByFilterRequest(request: HolidayFilterRequest): Observable<any> {
@@ -121,5 +121,12 @@ export class HolidayService {
         let httpOptions = this.getHttpHeader(request);
         return this.http.get(AppConsts.API_SERVICE_URL + 'holiday/checkValidity', httpOptions);
     }
+
+    getNumberOfDay(holiday: HolidayModel): Observable<number> {
+        let httpOptions = this.getHttpHeader();
+      
+       return this.http.post<number>(AppConsts.API_SERVICE_URL + 'holiday/numberOfDay', holiday, httpOptions);
+          
+        }
 
 } 

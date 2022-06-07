@@ -99,7 +99,7 @@
                         <td data-label="Nb jours" class="d-lg-block">{{rowData.numberOfDay}}</td>
                         <td data-label="Date de la demande" class="d-lg-block">{{rowData.auditDateCreation | date:'dd/MM/yyyy'}}</td>
                         <td data-label="Type" class="d-lg-block">{{rowData.typeName}}</td>
-                        <td data-label="Traitée par ?" class="d-lg-block">{{rowData.validatorFullName}}</td>
+                        <td data-label="Traitée par ?" class="d-lg-block">{{rowData.validatorDesignation}}</td>
                         <td data-label="Statut" class="d-lg-block">
                             <span [style.background-color]="'rgb(3, 194, 252)'" *ngIf="rowData.statusId == 1"
                                   class="badge badgeSize custom-badge">Envoyée</span>

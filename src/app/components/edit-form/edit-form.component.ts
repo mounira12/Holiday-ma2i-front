@@ -109,7 +109,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
       if (this.holiday.User == null  || !this.holiday.User.id )
         is_validCollaborateur = false; 
     }
-    if (this.holiday.NumberOfDay == 0) {
+    if (this.holiday.numberOfDay == 0) {
       this.messageService.add(controleNbreJour);
     }
     else if (!is_validCollaborateur)
@@ -195,7 +195,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
                             filterHoliday[0] : null;
                     }
 
-                    this.holiday.NumberOfDay = this.holiday.NumberOfDay;
+                    this.holiday.numberOfDay = this.holiday.numberOfDay;
                     if (this.holiday.startDateIsFullDay != null)
                         this.startDateIsFullDay = this.holiday.startDateIsFullDay;
                     if (this.holiday.endDateIsFullDay != null)
@@ -226,12 +226,12 @@ export class EditFormComponent implements OnInit, OnDestroy {
       this.holiday.startDateIsFullDay = this.startDateIsFullDay;
       this.holiday.endDateIsFullDay = this.endDateIsFullDay;
       this.holiday.type = this.HolidayTypeModel;
-      /*this.holidayService.getNumberOfDay(this.holiday).subscribe((response: number) => {
+      this.holidayService.getNumberOfDay(this.holiday).subscribe((response: number) => {
         this.loaderService.hideLoader();
         if (response >= 0) {
-          this.holiday.NumberOfDay = response;
+          this.holiday.numberOfDay = response;
         }
-      });*/
+      });
     }
   }
   
