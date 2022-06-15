@@ -30,8 +30,9 @@ export class AuthenticationService extends BaseService {
   }
 
    signIn(response: any, email: string, rememberMe: any) {
-       let localUserData = new LocalUserDataModel();
+    let localUserData = new LocalUserDataModel();
        localUserData.FullName = response.fullName;
+       localUserData.Id = response.id;
     localUserData.Username = email;
     localUserData.RememberMe = rememberMe;
     localUserData.UserRoles = response.Roles;

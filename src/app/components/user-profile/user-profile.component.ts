@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BarControllerChartOptions } from 'chart.js';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { AppConsts } from 'src/app/models/common/app-consts';
+import { AuthenticationService } from 'src/app/service/security/Authentication.service';
 import { UserModel } from '../../models/user.model';
 import { HolidayService } from '../../service/holiday.service';
 import { LoaderService } from '../common/loader/loader.service';
@@ -14,16 +17,20 @@ export class UserProfileComponent implements OnInit {
   @Input() user = new UserModel();
   @Input() isEdit : boolean;
   userId : string;
+  public isAdmin:boolean;
     constructor(private holidayService: HolidayService, private router: Router,private activatedRoute: ActivatedRoute,
         private messageService: MessageService,
-        private loaderService: LoaderService,
+        private loaderService: LoaderService,private authenticateService: AuthenticationService,
     private confirmationService: ConfirmationService) {
       this.userId = this.activatedRoute.snapshot.paramMap.get('id');
       if(this.userId) this.LoadUser();
    }
 
   ngOnInit() {
-   
+    this.authenticateService.authenticationState.subscribe(() => {
+      var jwtToken = JSON.parse(sessionStorage.getItem(AppConsts.TOKEN_KEY));
+      this.isAdmin = jwtToken == null ? '' : jwtToken.IsAdmin;
+  });
   }
 
     save(f) {

@@ -7,8 +7,11 @@
                 <div *ngIf="userId == null" class="card-header card-header-danger">
                     <h4 class="card-title">Ajout de nouveau utilisateur</h4>
                 </div>
-                <div *ngIf="userId != null" class="card-header card-header-danger">
+                <div *ngIf="userId != null && isAdmin" class="card-header card-header-danger">
                     <h4 class="card-title">Mise à jour d'un utilisateur</h4>
+                </div>
+                <div *ngIf="userId != null && !isAdmin" class="card-header card-header-danger">
+                    <h4 class="card-title">Informations personnelles  </h4>
                 </div>
                 <div class="col-12 mb-2 lg:col-4 lg:mb-0">
                     <button *ngIf="!isEdit" pButton pRipple label="Enregistrer" type="submit" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>

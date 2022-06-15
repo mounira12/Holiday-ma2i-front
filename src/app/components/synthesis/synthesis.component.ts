@@ -43,13 +43,18 @@ export class HolidaysSynthesisComponent  implements OnInit{
   userId: string;
   prefixeredirection: string = '';
   reload: boolean;
+  public isAdmin:boolean;
   constructor(private route: ActivatedRoute,private datetimeService: DateTimeService, private holidayService: HolidayService, private loaderService: LoaderService, 
               private location: Location, private router: Router, private authenticateService: AuthenticationService,
       public dateTimeService: DateTimeService, private collaboratorService: UserService) {
    
   }
   
-  ngOnInit() {
+  ngOnInit() { this.authenticateService.authenticationState.subscribe(() => {
+    var jwtToken = JSON.parse(sessionStorage.getItem(AppConsts.TOKEN_KEY));
+    this.isAdmin = jwtToken == null ? '' : jwtToken.IsAdmin;
+  });
+
     this.userId = this.route.snapshot.paramMap.get('userid');
     if (this.userId != null && this.userId.length > 0) {
       this.prefixeredirection = '../';
@@ -73,10 +78,11 @@ export class HolidaysSynthesisComponent  implements OnInit{
     {
       this.authenticateService.authenticationState.subscribe(() => {
         var jwtToken = JSON.parse(sessionStorage.getItem(AppConsts.TOKEN_KEY));
-        this.currentEmail = jwtToken == null ? '' : jwtToken.UserEMail;
+        this.userId = jwtToken == null ? '' : jwtToken.Id;
+        this.isAdmin = jwtToken == null ? '' : jwtToken.IsAdmin;
       });
         this.filterCollaborator = _.filter(this.allCollaborators, (collaborator: UserModel) => {
-        return collaborator.Email == this.currentEmail;})[0];
+        return collaborator.id == this.userId;})[0];
     }      
   }
 

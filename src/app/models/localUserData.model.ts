@@ -1,5 +1,6 @@
 export class LocalUserDataModel {
   public Username: string;
+  public Id:string;
   public RememberMe: boolean;
   public JwtToken: any;
   public FullName: string;
