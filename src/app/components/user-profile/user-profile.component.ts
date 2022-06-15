@@ -46,7 +46,10 @@ export class UserProfileComponent implements OnInit {
                     setTimeout(() => {
                       this.messageService.add(successMessage);
                     }, 400);
+                    if(this.isAdmin)
                         this.router.navigate(['dashboard/user-list']);
+                        else 
+                        this.router.navigate(['/dashboard/user-profile/'+ this.userId ]);
                     }
                     else {
                         this.messageService.add(errorMessage);

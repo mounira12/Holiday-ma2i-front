@@ -13,21 +13,23 @@ import { ResetPasswordModel } from '../../models/ResetPasswordModel';
   selector: 'app-new-password',
   templateUrl:'./new-password.component.html',
   styles:[`
-    :host ::ng-deep .p-password input {
-    width: 100%;
+  :host ::ng-deep .p-password input {
+    width: 1000rem;
     padding:1rem;
     }
 
     :host ::ng-deep .pi-eye{
-      transform:scale(1.6);
+    //   transform:scale(1.6);
       margin-right: 1rem;
       color: var(--primary-color) !important;
+      display : none;
     }
 
     :host ::ng-deep .pi-eye-slash{
-      transform:scale(1.6);
+    //   transform:scale(1.6);
       margin-right: 1rem;
       color: var(--primary-color) !important;
+    //   display : none;
     }
   `]
 })

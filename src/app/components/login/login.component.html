@@ -23,7 +23,7 @@
                             <p-message severity="error" *ngIf="f.Email.errors.pattern" text="Format invalide."></p-message>
                         </div>
                         <label for="password1" class="block text-900 text-xl  font-medium mb-2">Mot de passe</label>
-                        <p-password id="password1" name="password" formControlName="Password" [(ngModel)]="password" inputStyleClass="w-full" placeholder="Mot de passe" [toggleMask]="true" styleClass="w-full mb-3"></p-password>
+                        <p-password id="password1" name="password" formControlName="Password" [(ngModel)]="password" promptLabel="Saisir un mot de passe"  weakLabel= "Faible"  mediumLabel="Moyenne" strongLabel="Fort" inputStyleClass="w-full" placeholder="Mot de passe" [toggleMask]="true" styleClass="w-full mb-3"></p-password>
                         <div *ngIf="submitted && f.Password.errors" class="text-danger invalid-feedback" 
                              style="font-size: 80%; color: #dc3545;">
                             <p-message severity="error" *ngIf="f.Password.errors.required" text="Mot de passe obligatoire."></p-message>
