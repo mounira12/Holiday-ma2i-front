@@ -6,8 +6,6 @@ import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AccessComponent } from './components/access/access.component';
-//import { HolidaysHomeComponent } from './components/list-holidays/list.component';
-import { USER_ROLES } from './models/common/app-consts';
 import { HolidaysHomeComponent } from './components/list-holidays/list.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -41,6 +39,7 @@ import { NewPasswordComponent } from './components/new-password/new-password.com
                     { path: 'valid/:id', component: HolidayValidComponent},
                     { path: 'synthesis', component: HolidaysSynthesisComponent},
                     { path: 'synthesis/:userid', component: HolidaysSynthesisComponent},
+                    {path: 'list/:userid/:year', component: HolidaysHomeComponent}
                   /* 
                     {path: 'uikit/formlayout', component: FormLayoutComponent},
                     {path: 'uikit/input', component: InputComponent},
