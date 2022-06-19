@@ -16,7 +16,7 @@ export class HolidayService {
   //baseUrl:string ='https://localhost:44358';
   constructor(private http: HttpClient) { }
 
-  getHttpHeader(params = {}) {
+  getHttpHeader(isFileDownload: boolean = false,params = {}) {
     let httpHeaders = new HttpHeaders({
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -29,6 +29,13 @@ export class HolidayService {
       headers: httpHeaders,
       params: params
     };
+    if (isFileDownload) {
+        options = _.assign({
+          reportProgress: true,
+          responseType: 'blob' as 'json',
+          observe: 'response' as 'body'
+        }, options);
+      }
     return options;
   }
 
@@ -63,7 +70,7 @@ export class HolidayService {
     }
 
     getHolidaysByFilterRequest(request: HolidayFilterRequest): Observable<any> {
-        let httpOptions = this.getHttpHeader(request);
+        let httpOptions = this.getHttpHeader(false,request);
         var result = this.http.get(AppConsts.API_SERVICE_URL+ 'holiday/allByFilterRequest', httpOptions);
         return result;
 
@@ -94,13 +101,14 @@ export class HolidayService {
         httpOptions.params = _.assign({ holidayId: holidayId }, httpOptions.params);
         return this.http.get<HolidayModel>(AppConsts.API_SERVICE_URL + "holiday/GetById", httpOptions);
     }
-    validateHoliday(holidayRequest: HolidayRequestModel): Observable<any> {
+    validateHoliday(holidayRequest: HolidayRequestModel): Observable<number> {
         let httpOptions = this.getHttpHeader();
-        return this.http.post<any>(AppConsts.API_SERVICE_URL + "holiday/validate", holidayRequest, httpOptions);
+        return this.http.post<number>(AppConsts.API_SERVICE_URL + "holiday/validate", holidayRequest, httpOptions);
+    
     }
 
     getHolidaySynthesisByFilterRequest(request: HolidayFilterRequest): Observable<any> {
-        let httpOptions = this.getHttpHeader(request);
+        let httpOptions = this.getHttpHeader(false,request);
         return this.http.get(AppConsts.API_SERVICE_URL + "holidaySynthesis/allByFilterRequest", httpOptions);
     }
 
@@ -112,13 +120,13 @@ export class HolidayService {
         else
             return this.http.post<number>(AppConsts.API_SERVICE_URL + "holidaySynthesis/Add", holidaySynthesis, httpOptions);
     }
-    cancelHoliday(holiday: HolidayModel): Observable<HolidayModel> {
+    cancelHoliday(holiday: HolidayModel): Observable<number> {
         let httpOptions = this.getHttpHeader();
-        return this.http.post<HolidayModel>(AppConsts.API_SERVICE_URL + "holiday/cancel", holiday, httpOptions);
+        return this.http.post<number>(AppConsts.API_SERVICE_URL + "holiday/cancel", holiday, httpOptions);
     }
 
     checkValidity(request: HolidayFilterRequest): Observable<any> {
-        let httpOptions = this.getHttpHeader(request);
+        let httpOptions = this.getHttpHeader(false,request);
         return this.http.get(AppConsts.API_SERVICE_URL + 'holiday/checkValidity', httpOptions);
     }
 
@@ -129,4 +137,47 @@ export class HolidayService {
           
         }
 
+        exportHolidayToExcel(request: HolidayFilterRequest) {
+
+            let httpOptions = this.getHttpHeader(true);
+        
+            return this.http.post(AppConsts.API_SERVICE_URL + "holiday/exportHolidayToExcelAsAttachment", request, httpOptions)
+              .toPromise()
+              .then((response: any) => {
+                return this.getFileFromResponse(response);
+              });
+          }
+          exportHolidayByUserIdToExcel(request: HolidayFilterRequest) {
+
+            let httpOptions = this.getHttpHeader(true);
+        
+            return this.http.post(AppConsts.API_SERVICE_URL + "holiday/exportHolidayByUserIdToExcelAsAttachment", request, httpOptions)
+              .toPromise()
+              .then((response: any) => {
+                return this.getFileFromResponse(response);
+              });
+          }
+
+          getFileFromResponse(response: any) {
+            let fileName = 'file';
+            const contentDisposition = response.headers.get('Content-Disposition');
+        
+            if (contentDisposition) {
+              const fileNameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+              const matches = fileNameRegex.exec(contentDisposition);
+              if (matches != null && matches[1]) {
+                fileName = matches[1].replace(/['"]/g, '');
+              }
+            }
+        
+            return {
+              fileName: fileName,
+              document: response.body
+            };
+        }
+          getDashboardHolidays(email:string): Observable<any>{
+            let params = new HttpParams().set('emailConnectedUser', email);
+        
+            return this.http.get<any>( AppConsts.API_SERVICE_URL+'holiday/getDashboardHolidays', { params: params });
+          }
 } 

@@ -15,6 +15,11 @@
               </div>
             <div class="card p-fluid">
                 <h4 style="font-weight:normal">Demandeur de congé <strong>{{holiday.user.designation}}</strong></h4>
+
+                <!--<div >Solde de congés de l'année en cours  : <strong>{{holiday.NumberOfDayRemainingCurrentYear}}</strong></div>
+                    <div>Solde de congés de l'année précédente  : <strong>{{holiday.NumberOfDayRemainingCurrentYear}}</strong></div>
+                -->
+               
                 <div class="field grid">
                     <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Statut</label>
                     <div class="col-12 md:col-8">
@@ -93,13 +98,6 @@
                     <div class="col-12 md:col-8">
                         <input [disabled]="true" name="Type" class="form-control" type="text" pInputText
                                [(ngModel)]="holiday.type.name" maxlength="100" />
-                    </div>
-                </div>
-                <div class="field grid">
-                    <label htmlFor="name1" class="col-12 mb-2 md:col-4 md:mb-0">Raison</label>
-                    <div class="col-12 md:col-8">
-                        <textarea [disabled]="true" pInputTextarea name="reasonUser" class="form-control" #reasonUserInput="ngModel" [(ngModel)]="holiday.reasonUser"
-                                  required placeholder="Raison" [rows]="5" maxlength="450"></textarea>
                     </div>
                 </div>
                 <div class="field grid">

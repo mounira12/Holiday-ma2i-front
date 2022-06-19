@@ -190,21 +190,10 @@ export class AuthenticationService extends BaseService {
     sessionStorage.setItem(AppConsts.TOKEN_KEY, JSON.stringify(userData));
       sessionStorage.setItem(AppConsts.CurrentEmail, userData.Username);
   }
- 
-
-  hasPermission(roles: string[]) {
-    const localUserData = this.getLocalUserData();
-
-    return (
-      this.IsAuthenticated() &&
-      localUserData.UserRoles != null &&
-      _.intersection(localUserData.UserRoles, roles).length > 0
-    );
-  }
 
   setNewPassword(resetPassword: ResetPasswordModel) {
     return this.http.post(
         environment.API_SERVICE_URL + "account/updatepassword",resetPassword,   this.getHttpHeader(false)
     );
-}
+  }
 }

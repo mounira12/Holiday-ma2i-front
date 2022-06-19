@@ -91,6 +91,7 @@ export class SynthesisEditFormComponent  implements OnInit,OnDestroy {
 
 
   UpdateNumberOfDay(source: number) {
+    
     if (source == 1)
       this._holidaySynthesis.numberOfDayRemaining = this._holidaySynthesis.numberOfDayAutorized - this._holidaySynthesis.numberOfDayTaken;
     else if (source == 2)

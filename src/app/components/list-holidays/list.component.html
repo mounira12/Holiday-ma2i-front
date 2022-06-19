@@ -1,103 +1,85 @@
 <p-toast position="top-center" baseZIndex="500001"></p-toast>
-<p-confirmDialog baseZIndex="500001" header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
+<p-confirmDialog baseZIndex="500001" appendTo="body" header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <h5>Gestion des congés et du télétravail</h5>
+            <h5>Gestion des congés </h5>
             <button pButton pRipple (click)="add()" label="Demander un congé" icon="pi pi-plus" iconPos="left" class="mr-2 mb-2"></button>
-
             <button pButton pRipple (click)="edit()" label="Modifier une demande de congé" icon="pi pi-pencil" iconPos="left" class="mr-2 mb-2"></button>
             <button pButton pRipple (click)="info()" label="Détails" icon="pi pi-info" iconPos="left" class="mr-2 mb-2"></button>
             <button pButton pRipple (click)="cancelHoliday()" label="Annuler une demande de congé" icon="pi pi-trash" iconPos="left" class="mr-2 mb-2"></button>
             <button pButton pRipple (click)="synthesis()" label="Solde des congés" icon="pi pi-info" iconPos="left" class="mr-2 mb-2"></button>
             <button *ngIf="IsAdmin"  pButton pRipple (click)="valid()" label="Traiter une demande de congé" icon="pi pi-user-edit" iconPos="left" class="mr-2 mb-2"></button>
-            <!--  <div class="item" (click)="add()" *ngIf="haspermissioncrm" disable-role-action>
-      <a><i class="fa fa-plus"></i>Demander un congé</a>
-    </div>
-    <div class="item" (click)="edit()" *ngIf="haspermissioncrm" disable-role-action>
-      <a><i class="fa fa-edit"></i>Modifier<span class="d-md-block"> une demande de congé</span></a>
-    </div>
-    <div class="item" (click)="cancelHoliday()"  disable-role-action>
-      <a><i class="fa fa-edit"></i>Annuler<span class="d-md-block"> une demande de congé</span></a>
-    </div>
-    <div class="item" (click)="info()" disable-role-action>
-      <a><i class="fa fa-info"></i>Détails</a>
-    </div>
-    <div class="item" (click)="synthesis()" disable-role-action>
-      <a><i class="fa fa-info"></i>Solde<span class="d-md-block"> des congés</span></a>
-    </div>
-    <div class="item" (click)="valid()" [authorizeRole]="validHolidays" disable-role-action>
-      <a><i class="fa fa-plus"></i>Traiter<span class="d-md-block"> une demande de congé</span></a>
-    </div>
-    <div class="item" *ngIf="haspermissioncrm" (click)="export()">
-      <a><i class="fa fa-file-excel-o"></i>Exporter<span class="d-none d-md-block"> vers Excel</span> </a>
-    </div>-->
-            <!-- <div class="row filters">
-
-      <div class="filter-item" *ngIf="haspermission">
-        <p-autoComplete name="filterCollaborator" [(ngModel)]="filterCollaborator" placeholder="Rechercher par collaborateur"
-                        [suggestions]="filterCollaboratorCollection" field="Designation" [dropdown]="true" [size]="30"
+         
+            <button pButton pRipple (click)="export()" label="Export vers Excel" icon="pi pi-file-excel" iconPos="left" class="mr-2 mb-2"></button>
+      <div class="grid formgrid">
+        <div class="col-12 mb-2 lg:col-3 lg:mb-2"  *ngIf="IsAdmin">
+         <p-autoComplete name="filterCollaborator" [(ngModel)]="filterCollaborator" placeholder="Recherche par utilisateur"
+                        [suggestions]="filterCollaboratorCollection" field="designation" [dropdown]="true" [size]="30"
                         (completeMethod)="searchCollaborator($event)"
                         (onSelect)="onCollaboratorSelected($event)" (onDropdownClick)="searchCollaborator($event)"
                         [style]="{'width':'100%'}" [inputStyle]="{'width':'calc(100% - 31px)'}"
                         [delay]="100" (onClear)="initHolidays(0)"
                         emptyMessage="Saisissez au moins 2 caractères pour lancer la recherche."></p-autoComplete>
-      </div>
-
-      <div class="filter-item">
-        <p-calendar name="filterStartDate" [(ngModel)]="filterStartDate" placeholder="Date début" [locale]="dateTimeService.fr" [showButtonBar]="true"
-                    [style]="{'width':'100%'}" showIcon="true" dateFormat="dd/mm/yy" [inputStyle]="{'width':'calc(100% - 31px)'}"
-                    (onSelect)="initHolidays(0);" (onClearClick)="initHolidays(0);" [maxDate]="filterEndDate"></p-calendar>
-      </div>
-      <div class="filter-item">
-        <p-calendar name="filterEndDate" [(ngModel)]="filterEndDate" placeholder="Date fin" [locale]="dateTimeService.fr" [showButtonBar]="true"
-                    [style]="{'width':'100%'}" showIcon="true" dateFormat="dd/mm/yy" [inputStyle]="{'width':'calc(100% - 31px)'}"
-                    (onSelect)="initHolidays(0);" (onClearClick)="initHolidays(0);" [minDate]="filterStartDate"></p-calendar>
-      </div>
-      <div class="filter-item">
-        <p-dropdown [(ngModel)]="filterYear" [options]="years" [style]="{'width':'100%'}"
-                    (onChange)="initHolidays(0)" placeholder="Sélectionner une année"></p-dropdown>
-      </div>
-      <div class="filter-item">
-        <p-dropdown name="filterStatus" [(ngModel)]="filterStatus" [autoWidth]="false" placeholder="Sélectionner un statut"
-                    filterPlaceholder="Type" [options]="status" [style]="{'width':'100%'}"
-                    (onChange)="initHolidays(0)" ></p-dropdown>
-      </div>
-      <div class="filter-item">
-        <p-dropdown name="filterType" [(ngModel)]="filterType" [autoWidth]="false" placeholder="Sélectionner un type"
-                   optionLabel="Name" filterPlaceholder="Type" [options]="types" [style]="{'width':'100%'}"
-                    (onChange)="initHolidays(0)" ></p-dropdown>
-      </div>
-      <div class="filter-item">
-        <a href (click)="initFilters()">Réinitialiser la recherche</a>
-      </div>
+     </div>
+     <div class="col-12 mb-2 lg:col-3 lg:mb-2">
+           
+      <p-calendar name="filterStartDate" [(ngModel)]="filterStartDate" placeholder="Date début" [locale]="dateTimeService.fr" [showButtonBar]="true"
+                  [style]="{'width':'100%'}" showIcon="true" dateFormat="dd/mm/yy" [inputStyle]="{'width':'calc(100% - 31px)'}"
+                  (onSelect)="initHolidays(0);" (onClearClick)="initHolidays(0);" [maxDate]="filterEndDate"></p-calendar>
     </div>
-       -->
-
-            <p-table styleClass="p-datatable-gridlines" [value]="listHolidays" [(selection)]="selectedItem" selectionMode="single" dataKey="id"
+    <div class="col-12 mb-2 lg:col-3 lg:mb-2">
+           
+      <p-calendar name="filterEndDate" [(ngModel)]="filterEndDate" placeholder="Date fin" [locale]="dateTimeService.fr" [showButtonBar]="true"
+                  [style]="{'width':'100%'}" showIcon="true" dateFormat="dd/mm/yy" [inputStyle]="{'width':'calc(100% - 31px)'}"
+                  (onSelect)="initHolidays(0);" (onClearClick)="initHolidays(0);" [minDate]="filterStartDate"></p-calendar>
+    </div>
+    
+            <div class="col-12 mb-2 lg:col-3 lg:mb-2">
+              <p-dropdown [(ngModel)]="filterYear" [options]="years" [style]="{'width':'100%'}"
+                    (onChange)="initHolidays(0)" placeholder="Sélectionner une année"></p-dropdown>
+        </div>
+      </div>
+      <div class="grid formgrid">
+        <div class="col-12 mb-2 lg:col-3 lg:mb-2">
+          <p-dropdown name="filterStatus" [(ngModel)]="filterStatus"  placeholder="Recherche par statut"
+                      filterPlaceholder="type" [options]="status" [style]="{'width':'100%'}"
+                      (onChange)="initHolidays(0)" ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-3 lg:mb-2">
+          <p-dropdown name="filterType" [(ngModel)]="filterType" placeholder="Recherche par type"
+                     optionLabel="name" filterPlaceholder="Type" [options]="types" [style]="{'width':'100%'}"
+                      (onChange)="initHolidays(0)" ></p-dropdown>
+        </div>
+          <div class="col-12 mb-2 lg:col-3 lg:mb-2">
+              <a href (click)="initFilters()" style="margin-left: 20px">Réinitialiser la recherche</a>
+          </div>
+      </div>
+      <br>
+     <p-table styleClass="p-datatable-gridlines" [value]="listHolidays" [(selection)]="selectedItem" selectionMode="single" dataKey="id"
                      [paginator]="true" [rows]="pageSize" (onLazyLoad)="loadHolidaysLazy($event)" [totalRecords]="totalRecords" [lazy]="true"
                      [customSort]="true">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th data-label="Nom" [pSortableColumn]="'Nom'">
+                      <th width="13%">Date de la demande</th>
+                      <th data-label="Nom"  *ngIf="IsAdmin" [pSortableColumn]="'Nom'" width="12%">
                             Utilisateur
                         </th>
-                        <th>Date début</th>
-                        <th>Date fin</th>
-                        <th>Nb jours demandés</th>
-                        <th>Date de la demande</th>
-                        <th>Type</th>
-                        <th>Traité par ?</th>
-                        <th>Statut</th>
+                        <th width="13%">Date début</th>
+                        <th width="13%">Date fin</th>
+                        <th width="8%">Nb jours</th>
+                        <th width="12%">Type</th>
+                        <th width="10%">Traité par</th>
+                        <th width="20%">Statut</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
                     <tr [pSelectableRow]="rowData">
-                        <td data-label="Collaborateur" class="d-lg-block">{{rowData.userFullName}}</td>
+                        <td data-label="Date de la demande" class="d-lg-block">{{rowData.auditDateCreation | date:'dd/MM/yyyy'}}</td>
+                        <td data-label="Collaborateur" *ngIf="IsAdmin" class="d-lg-block">{{rowData.userFullName}}</td>
                         <td data-label="Date début" class="d-lg-block">{{rowData.startDate | date:'dd/MM/yyyy'}}</td>
                         <td data-label="Date fin" class="d-lg-block">{{rowData.endDate | date:'dd/MM/yyyy'}}</td>
-                        <td data-label="Nb jours" class="d-lg-block">{{rowData.numberOfDay}}</td>
-                        <td data-label="Date de la demande" class="d-lg-block">{{rowData.auditDateCreation | date:'dd/MM/yyyy'}}</td>
+                        <td data-label="Nb jours demandés" class="d-lg-block">{{rowData.numberOfDay}}</td>
                         <td data-label="Type" class="d-lg-block">{{rowData.typeName}}</td>
                         <td data-label="Traitée par ?" class="d-lg-block">{{rowData.validatorDesignation}}</td>
                         <td data-label="Statut" class="d-lg-block">

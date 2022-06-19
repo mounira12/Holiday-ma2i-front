@@ -46,9 +46,10 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Pages',
                 items: [
+                    { label: 'Gestion des utilisateurs', icon: 'pi pi-fw pi-user', routerLink: ['/dashboard/user-list'] },
                     { label: 'Gestion des congés', icon: 'pi pi-fw pi-cog', routerLink: ['/dashboard/list-holidays'] },
                     { label: 'Synthèse des congés', icon: 'pi pi-fw pi-file', routerLink: ['/dashboard/synthesis'] },
-                    { label: 'Gestion des utilisateurs', icon: 'pi pi-fw pi-user', routerLink: ['/dashboard/user-list'] },
+                  
                      ]
             }         
         ];}

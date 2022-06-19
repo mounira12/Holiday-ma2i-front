@@ -28,19 +28,15 @@ Year1.label
                 <span *ngIf="rowData.type.applicationId==1 || rowData.type.applicationId==4">Acquis<br /></span>Pris <span *ngIf="rowData.type.applicationId==1 || rowData.type.applicationId==4"><br />Reste<br /></span>
             </td>
             <td [attr.data-label]="Year1.label">
-                <i style="float:right;" placement="right" (click)="edit(HolidaySynthesisYear1(rowData.type.id))" class="pi pi-user-edit text-2xl" *ngIf="haspermission && (rowData.type.applicationId==1 || rowData.type.applicationId==4)" [pTooltip]="'Modifier'">
+                <i style="float:right;" placement="right" (click)="edit(HolidaySynthesisYear1(rowData.type.id))" class="pi pi-user-edit text-2xl" *ngIf="IsAdmin && (rowData.type.applicationId==1 || rowData.type.applicationId==4)" [pTooltip]="'Modifier'">
                 </i>
                 
                 <app-synthesis-detail-year [HolidaySynthesis]="HolidaySynthesisYear1(rowData.type.id)">
                 </app-synthesis-detail-year>
             </td>
             <td [attr.data-label]="Year2.label">
-                <i  style="float:right;"  placement="right" (click)="edit(HolidaySynthesisYear2(rowData.type.id))" class="pi pi-user-edit text-2xl" *ngIf="haspermission && (rowData.type.applicationId==1 || rowData.type.applicationId==4)" [pTooltip]="'Modifier'">
+                <i  style="float:right;"  placement="right" (click)="edit(HolidaySynthesisYear2(rowData.type.id))" class="pi pi-user-edit text-2xl" *ngIf="IsAdmin && (rowData.type.applicationId==1 || rowData.type.applicationId==4)" [pTooltip]="'Modifier'">
                 </i>
-                <!--<a (click)="edit(HolidaySynthesisYear2(rowData.type.id))"  *ngIf="haspermission && (rowData.type.applicationId==1 || rowData.type.applicationId==4)"  [pTooltip]="'Modifier'">
-    <i style="float:right;" *ngIf="haspermission && (rowData.type.applicationId==1 || rowData.type.applicationId==4)" class="pi pi-edit" [pTooltip]="'Modifier'"
-       placement="right"></i>
-            </a>-->
                 <app-synthesis-detail-year [HolidaySynthesis]="HolidaySynthesisYear2(rowData.type.id)">
                 </app-synthesis-detail-year>
             </td>

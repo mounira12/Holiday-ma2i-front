@@ -35,7 +35,6 @@ export class HolidaysSynthesisComponent  implements OnInit{
     filterCollaboratorCollection: UserModel[];
     allCollaborators: UserModel[];
   holidayStatusPending: any = HolidayStatusEnum.HOLIDAY_PENDING_VALIDATION;
-  haspermission: boolean = false;
   validHolidays: any[];
   readOnlyHoliday: boolean;
   outputData: HolidaySynthesisModel;
@@ -62,11 +61,6 @@ export class HolidaysSynthesisComponent  implements OnInit{
     this.loadYear();
       this.selectedTabIndexSubject = new Subject<number>();
 
-      this.authenticateService.authenticationState.subscribe(() => {
-          var jwtToken = JSON.parse(sessionStorage.getItem(AppConsts.TOKEN_KEY));
-          this.haspermission = jwtToken == null ? '' : jwtToken.IsAdmin;
-      });
-    
     }
   initSelectedUser() {
     if (this.userId != null)
@@ -139,7 +133,7 @@ export class HolidaysSynthesisComponent  implements OnInit{
   }
 
   onCollaboratorSelected(event) {
-    const idCollaborator = event.Id;
+    const idCollaborator = event.id;
     if (idCollaborator && idCollaborator !=null) {
      this.initHolidays();
     }

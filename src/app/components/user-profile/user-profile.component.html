@@ -63,7 +63,7 @@
                 <div class="grid formgrid">
                     <div class="col-12 mb-2 lg:col-4 lg:mb-0">
                         <p-checkbox inputId="isAdmin" [(ngModel)]="user.IsAdmin" value="isAdmin" name="isAdmin" spellcheck="true" #EndDateIsFullDayInput="ngModel"
-                                    label="Administrateur" binary="true"></p-checkbox>
+                                    label="Administrateur" binary="true" [disabled]="!isAdmin"></p-checkbox>
                     </div>
                 </div>
             </div>

@@ -11,6 +11,8 @@ import { HolidayService } from '../../service/holiday.service';
 import { DateTimeService } from '../../service/datetime.service';
 import { AppConsts } from '../../models/common/app-consts';
 import { AuthenticationService } from '../../service/security/Authentication.service';
+import { HolidayFilterRequest } from 'src/app/models/holiday/holidayFilterRequest.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-holiday-valid',
@@ -85,14 +87,14 @@ init() {
 initData() {
   if (this.holiday && this.holiday != null) {
       if (this._holiday.startDate && this._holiday.startDate != null) {
-          this.StartDate = this.dateTimeService.moment(this.holiday.StartDate).toDate();
+          this.StartDate = this.dateTimeService.moment(this.holiday.startDate).toDate();
       }
      
     if (this._holiday.endDate && this._holiday.endDate != null) {
-      this.EndDate = this.dateTimeService.moment(this.holiday.EndDate).toDate();
+      this.EndDate = this.dateTimeService.moment(this.holiday.endDate).toDate();
     }
-    if (this._holiday.ResponseDate && this._holiday.ResponseDate != null) {
-      this.ResponseDate = this.dateTimeService.moment(this.holiday.ResponseDate).toDate();
+    if (this._holiday.responseDate && this._holiday.responseDate != null) {
+      this.ResponseDate = this.dateTimeService.moment(this.holiday.responseDate).toDate();
     }
 
       if (this._holiday.auditDateCreation && this._holiday.auditDateCreation != null) {
@@ -105,8 +107,24 @@ initData() {
     this.ResponseDate = null;
     this.SendDate = null;
   }
+
+  this.loadSynthesis();
   }
 
+  loadSynthesis()
+  { 
+    var request = new HolidayFilterRequest();
+    request.FilterUserId = this.holiday.userId ;
+    request.FilterYear = moment().locale('fr').year();
+    return request;
+   /* this.holidayService.getHolidaySynthesisByFilterRequest(request).subscribe(response => {
+      this.listHolidaySynthesis = response;
+      if (this.listHolidaySynthesis.length>0)
+        this.user = this.listHolidaySynthesis[0].user;
+      this.YearCols = this.getYearCols();
+        this.loaderService.hideLoader();
+      */
+      }
   loadHoliday() {
     return this.holidayService.getHoliday(this.holidayRouteId)
     .toPromise()
@@ -186,14 +204,12 @@ initData() {
           this._holidayRequest.ValidatorEmail = this.validatorEmail
         let successMessage = { severity: 'success', summary: messsageSuccess };
         let errorMessage = { severity: 'error', summary: "Une erreur est surevenue lors de votre sauvegarde" };
-        this.holidayService.validateHoliday(this._holidayRequest).subscribe((response: any) => {
+        this.holidayService.validateHoliday(this._holidayRequest).subscribe((response: number) => {
           this.loaderService.hideLoader();
           if (response) {
             setTimeout(() => { this.messageService.add(successMessage); }, 400);
             this.location.back(); 
-            // this.router.navigate(['../..'], { relativeTo: this.route });
-
-          }
+        }
           else {
             this.messageService.add(errorMessage);
           }
@@ -205,6 +221,6 @@ initData() {
     this.location.back();
   }
   synthesis() {
-    this.router.navigate(['../../synthesis'], { relativeTo: this.route });
+    this.router.navigate(['../../synthesis/' + this.holiday.userId], { relativeTo: this.route });
   }
   }

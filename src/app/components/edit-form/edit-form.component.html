@@ -6,9 +6,12 @@
                 <div class="grid p-fluid mt-3">
                     <div *ngIf="IsAdmin"  class="field col-12 md:col-12" >
                         <span class="p-float-label">
-                            <p-autoComplete  [disabled]="disabledCollaborator" inputId="Collaborator" name="Collaborator" [(ngModel)]="holiday.user" [suggestions]="filterCollaboratorCollection"
+                            <p-autoComplete  [disabled]="disabledCollaborator" inputId="Collaborator" name="Collaborator" #CollaboratorInput="ngModel"
+                                             [(ngModel)]="holiday.user" [suggestions]="filterCollaboratorCollection"
                                             (completeMethod)="searchCollaborator($event)" forceSelection="true"
-                                            (onDropdownClick)="searchCollaborator($event)" field="designation" [size]="30"></p-autoComplete>
+                                            (onDropdownClick)="searchCollaborator($event)" field="designation" [size]="30"
+                                            required [ngClass]="{ 'ng-invalid ng-dirty': f.submitted &&  CollaboratorInput.errors }" 
+                                            ></p-autoComplete>
                             <label for="Collaborator">Utilisateur</label>
                         </span>
                     </div>
@@ -33,7 +36,7 @@
                         <span class="p-float-label">
                             <p-calendar inputId="endDate" [disabled]="disabled" name="endDate" #EndDateInput="ngModel" [(ngModel)]="endDate" [locale]="dateTimeService.fr"
                                         dateFormat="dd/mm/yy" required [showIcon]="true" [style]="{'width':'100%'}" (change)="onChange()"
-                                        [ngClass]="{ 'is-invalid':f.submitted && EndDateInput.errors }" (onSelect)="getNumberOfDay()"
+                                        [ngClass]="{ 'ng-invalid ng-dirty':f.submitted && EndDateInput.errors }" (onSelect)="getNumberOfDay()"
                                         [minDate]="MinDate" [maxDate]="MaxDate"></p-calendar>
                             <label for="endDate">Date fin de congé</label>
                         </span>
@@ -51,7 +54,7 @@
                         <span class="p-float-label">
                             <input type="text" id="NumberOfDay" pInputText [disabled]="disabled" name="NumberOfDay" [(ngModel)]="holiday.numberOfDay"
                                    class="form-control" maxlength="100" #LibelleInput="ngModel"
-                                   [ngClass]="{ 'is-invalid': f.submitted && LibelleInput.errors }" required pattern="[0-9]+(\.[0-9][0-9]?)?" (keypress)="numbersOnly($event)">
+                                   [ngClass]="{ 'ng-invalid ng-dirty': f.submitted && LibelleInput.errors }" required pattern="[0-9]+(\.[0-9][0-9]?)?" (keypress)="numbersOnly($event)">
                             <label for="NumberOfDay">Nombre de jours ouvrés pris</label>
                         </span>
                     </div>
@@ -60,7 +63,7 @@
                             <p-dropdown inputId="typeo" name="typeo" required="true" [disabled]="disabled" #typeInput="ngModel"
                                         filterPlaceholder="Type" [options]="types" optionLabel="name" [style]="{'width':'100%'}"
                                         [(ngModel)]="HolidayTypeModel" #typesInput="ngModel" (onChange)="getNumberOfDay()"
-                                        [ngClass]="{ 'is-invalid': f.submitted && typeInput.errors }"></p-dropdown>
+                                        [ngClass]="{ 'ng-invalid ng-dirty': f.submitted && typeInput.errors }"></p-dropdown>
                             <label for="typeo">Type</label>
                         </span>
                     </div>
@@ -71,14 +74,8 @@
                             <label for="comment">Commentaire</label>
                         </span>
                     </div>
-
-                    <!--  <div class="field col-12 md:col-12">
-        <span class="p-float-label">
-            <p-fileUpload [disabled]="disabled" name="file" accept=".pdf,.docx" (uploadHandler)="onUpload($event)" customUpload="true" [auto]="true" chooseLabel="Choisir le fichier">
-            </p-fileUpload>
-            <label for="file">  Pièce jointe</label>
-        </span>
-    </div>-->
+              
+                  
                 </div>
 
                 <button pButton pRipple type="submit" *ngIf="!disabled" label="Enregistrer" icon="pi pi-save" iconPos="left" class="mr-2 mb-2"></button>
@@ -90,4 +87,4 @@
             </div>
         </div>
 </form>
-   <button pButton pRipple (click)="cancel(f)" label="Retour" icon="pi pi-undo" iconPos="left" class="mr-2 mb-2"></button>
+

@@ -8,7 +8,7 @@ import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api'
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserModel } from 'src/app/models/user.model';
 import { LabelValueModel } from 'src/app/models/common/label-value.model';
-import { AppConsts, USER_ROLES } from 'src/app/models/common/app-consts';
+import { AppConsts } from 'src/app/models/common/app-consts';
 import { DateTimeService } from 'src/app/service/datetime.service';
 import { AuthenticationService } from 'src/app/service/security/Authentication.service';
 import { UserService } from 'src/app/service/user.service';
@@ -17,6 +17,7 @@ import { HolidayStatusEnum } from '../../models/holiday/holidayRequest.model';
 import { HolidayModel } from '../../models/holiday/holiday.model';
 import { HolidayTypeModel } from '../../models/holiday/holidayType.model';
 import { HolidayFilterRequest } from '../../models/holiday/holidayFilterRequest.model';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-holidays-home',
   templateUrl: './list.component.html',
@@ -46,10 +47,6 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
   holidayStatusPendingCancelation: HolidayStatusEnum = HolidayStatusEnum.HOLIDAY_PENDING_CANCELATION;
   holidayStatusCanceled: HolidayStatusEnum = HolidayStatusEnum.HOLIDAY_CANCELED;
   holidayStatusValidated: HolidayStatusEnum = HolidayStatusEnum.HOLIDAY_VALIDATED;
-  adminHolidays: any[] = [USER_ROLES.RESPONSABLE_CONGE];
-  validHolidays: any[];
-  haspermission = this.authenticateService.hasPermission(this.adminHolidays);
-  haspermissioncrm: boolean; 
   readOnlyHoliday: boolean;
   userId:string;
   year:number;
@@ -74,10 +71,8 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
             var jwtToken = JSON.parse(sessionStorage.getItem(AppConsts.TOKEN_KEY));
             this.emailConnectedUser = jwtToken == null ? '' : jwtToken.Username;
             this.IsAdmin = jwtToken == null ? '' : jwtToken.IsAdmin;
-
         });
-    this.haspermissioncrm = true;
-    this.validHolidays = [USER_ROLES.RESPONSABLE_CONGE];
+       this.loadColloborators();
     
     this.userId =  this.route.snapshot.paramMap.get('userid');
     this.year =  this.route.snapshot.params['year']; 
@@ -95,7 +90,7 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
   }
 
   ngAfterViewInit() { 
-    //this.loadColloborators();
+    this.loadColloborators();
  }
  ngAfterViewChecked()
   {  
@@ -175,9 +170,8 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
             {
                   holidayRequest.statusId = this.holidayStatusPendingCancelation;
             }
-              this.holidayService.cancelHoliday(holidayRequest).subscribe((response: HolidayModel) => {
+              this.holidayService.cancelHoliday(holidayRequest).subscribe((response: number) => {
                   this.loaderService.hideLoader();
-                  alert(response);
                   if (response) {
                       this.messageService.add(successMessage);
                       this.initHolidays(0);
@@ -226,6 +220,8 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
     return _.toLower(collaborator.designation).indexOf(lowerQuery) >= 0;
     });
   }
+
+  
   loadColloborators() {
     return this.UserModel.all()
       .toPromise()
@@ -274,12 +270,12 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
     if (this.filterEndDate != null)
       request.FilterEndDate = this.dateTimeService.utcFormatDate(this.filterEndDate);
     if (this.filterCollaborator != null) {
-        if (this.filterCollaborator['Id'] != null)
+        if (this.filterCollaborator['id'] != null)
           request.FilterUserId = (this.filterCollaborator as UserModel).id;
         else
           request.FilterUserName = (this.filterCollaborator as string).toLowerCase();
       }
-   
+   debugger;
    /* request.SortColumn = this.sortField != undefined ? this.sortField : null;
     if (this.sortField != undefined)
       request.SortOrder = this.getSortDirection(this.sortOrder)*/
@@ -298,7 +294,7 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
   }
 
   onCollaboratorSelected(event) {
-    const idCollaborator = event.Id;
+    const idCollaborator = event.id;
     if (idCollaborator && idCollaborator !=null) {
      this.initHolidays(0);
     }
@@ -327,16 +323,20 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
     }
   }
 
-  /*export() {
+  export() {
     var request = this.createHolidayRequest(null, null);
-    if (this.authenticateService.hasPermission(this.adminHolidays))
+    if (this.IsAdmin)
       this.holidayService.exportHolidayToExcel(request).then(response => {
-        saveAs(response.document, response.fileName);});
+        saveAs(response.document, 'Liste des congés');});
     else
+    { this.authenticateService.authenticationState.subscribe(() => {
+        var jwtToken = JSON.parse(sessionStorage.getItem(AppConsts.TOKEN_KEY));
+        request.FilterUserId = jwtToken == null ? '' : jwtToken.Id;
+    });
       this.holidayService.exportHolidayByUserIdToExcel(request).then(response => {
-        saveAs(response.document, response.fileName);});
+        saveAs(response.document, 'Liste des congés');});
+      }
   }
-*/
   loadYear() {
     this.years = this.dateTimeService.loadNextYearsFilterItems();
     if (this.year && this.year > 0) 
@@ -363,3 +363,5 @@ export class HolidaysHomeComponent  implements OnInit, AfterViewInit,AfterViewCh
       });    
   } 
 }
+
+

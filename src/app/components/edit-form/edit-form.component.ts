@@ -5,7 +5,7 @@ import { FormGroup, Validators, NgForm } from '@angular/forms';
 import * as _ from 'lodash';
 import { HolidayModel, HolidayModelRequest } from '../../models/holiday/holiday.model';
 import { HolidayTypeModel } from '../../models/holiday/holidayType.model';
-import { AppConsts, USER_ROLES } from '../../models/common/app-consts';
+import { AppConsts } from '../../models/common/app-consts';
 import { UserModel } from '../../models/user.model';
 import { DateTimeService } from '../../service/datetime.service';
 import { HolidayService } from '../../service/holiday.service';
@@ -46,8 +46,6 @@ export class EditFormComponent implements OnInit, OnDestroy {
   startDateIsFullDay: boolean=true;
   endDateIsFullDay: boolean=true;
   types: HolidayTypeModel[];
-  adminHolidays: any[] = [USER_ROLES.RESPONSABLE_CONGE];
-    haspermission = true;//this.authenticateService.hasPermission(this.adminHolidays);
   disabledCollaborator:boolean;  
     allCollaborators: UserModel[];
     filterCollaboratorCollection: UserModel[];
@@ -104,9 +102,9 @@ export class EditFormComponent implements OnInit, OnDestroy {
     let controleNbreJour = { severity: 'error', summary: "Impossible d'ajouter une demande de congé avec nombre de jours de congés 0" };
     let is_validCollaborateur = true;
     
-    if (this.authenticateService.hasPermission(this.adminHolidays))
+    if (this.IsAdmin)
     {
-      if (this.holiday.User == null  || !this.holiday.User.id )
+      if (this.holiday.user == null  || !this.holiday.user.id )
         is_validCollaborateur = false; 
     }
     if (this.holiday.numberOfDay == 0) {
@@ -123,8 +121,8 @@ export class EditFormComponent implements OnInit, OnDestroy {
       var request = new HolidayFilterRequest();
       request.FilterStartDate = this.dateTimeService.utcFormatDate(this.holiday.startDate);
       request.FilterEndDate = this.dateTimeService.utcFormatDate(this.holiday.endDate);
-      if (this.authenticateService.hasPermission(this.adminHolidays)) {
-        request.FilterUserId = this.holiday.User.id;
+      if (this.IsAdmin) {
+        request.FilterUserId = this.holiday.user.id;
       }
       if (this.holiday.id != null )
       request.FilterHolidayId = this.holiday.id;

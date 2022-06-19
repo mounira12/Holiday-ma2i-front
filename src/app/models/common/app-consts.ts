@@ -14,9 +14,4 @@ export const AppConsts = {
   REMEMBER_ME: "remember-me",
   USER_MAIL: "user-mail",
 }
-export const USER_ROLES = {
-  ADMINSTRATOR : "Administrateur",
-  RESPONSABLE_CONGE: "Responsable congé",
-  UTILISATEUR_Normal: "Responsable congé",
-};
 

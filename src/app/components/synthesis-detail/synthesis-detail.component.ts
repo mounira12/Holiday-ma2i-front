@@ -29,7 +29,7 @@ export class SynthesisDetailComponent  implements OnInit {
   title = '';
   readOnlyHoliday: boolean;
     holidaySynthesis: HolidaySynthesisModel;
-    haspermission: boolean;
+    IsAdmin: boolean;
   _DefaultYear: LabelValueModel;
   @Input()
     set DefaultYear(value: LabelValueModel) {
@@ -114,7 +114,7 @@ export class SynthesisDetailComponent  implements OnInit {
  ngOnInit() {
         this.authenticateService.authenticationState.subscribe(() => {
             var jwtToken = JSON.parse(sessionStorage.getItem(AppConsts.TOKEN_KEY));
-            this.haspermission = jwtToken == null ? '' : jwtToken.IsAdmin;
+            this.IsAdmin = jwtToken == null ? '' : jwtToken.IsAdmin;
         });
   }
 
