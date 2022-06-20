@@ -49,7 +49,8 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Gestion des utilisateurs', icon: 'pi pi-fw pi-user', routerLink: ['/dashboard/user-list'] },
                     { label: 'Gestion des congés', icon: 'pi pi-fw pi-cog', routerLink: ['/dashboard/list-holidays'] },
                     { label: 'Synthèse des congés', icon: 'pi pi-fw pi-file', routerLink: ['/dashboard/synthesis'] },
-                  
+                    { label: 'Paramètres', icon: 'pi pi-fw pi-key', routerLink: ['/dashboard/resetPassword/'+ idUser] },
+
                      ]
             }         
         ];}
@@ -67,7 +68,8 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Profil', icon: 'pi pi-fw pi-user', routerLink: ['/dashboard/user-profile/'+ idUser] },
                     { label: 'Demandes de congés', icon: 'pi pi-fw pi-cog', routerLink: ['/dashboard/list-holidays'] },
-                    { label: 'Synthèse des congés', icon: 'pi pi-fw pi-file', routerLink: ['/dashboard/synthesis'] }
+                    { label: 'Synthèse des congés', icon: 'pi pi-fw pi-file', routerLink: ['/dashboard/synthesis'] },
+                    { label: 'Paramètres', icon: 'pi pi-fw pi-key', routerLink: ['/dashboard/resetPassword/'+ idUser] },
                    
                     ]
                 }     

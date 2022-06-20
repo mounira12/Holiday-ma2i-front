@@ -14,6 +14,7 @@ export class AppTopBarComponent implements OnInit{
 
     items: MenuItem[];
     userName: string;
+    userId: any;
     constructor(public appMain: AppMainComponent, private authService: AuthenticationService,   private router: Router) { }
     ngOnInit() {
         this.items = [
@@ -21,13 +22,15 @@ export class AppTopBarComponent implements OnInit{
                 label: '',
                 icon: 'pi pi-user',
                 items: [
-                    {label: 'Déconnexion', icon: 'pi pi-fw pi-power-off',command: () => this.logout()}
+                    {label: 'Déconnexion', icon: 'pi pi-fw pi-power-off',command: () => this.logout()},
+                    {label: 'Paramètres', icon: 'pi pi-fw pi-key',command: () => this.resetPassword()}
                 ]
             }
         ];
         this.authService.authenticationState.subscribe(() => {
             var jwtToken = JSON.parse(sessionStorage.getItem(AppConsts.TOKEN_KEY));
             this.userName = jwtToken == null ? '' : jwtToken.FullName;
+            this.userId = jwtToken == null ? '' : jwtToken.Id;
         });
            
     }
@@ -36,6 +39,10 @@ export class AppTopBarComponent implements OnInit{
         console.log(localStorage)
         // localStorage.removeItem('token');
         this.router.navigate(['']);
+      }
+      resetPassword(){
+        // localStorage.removeItem('token');
+        this.router.navigate(['dashboard/resetPassword/'+this.userId]);
       }
    
 

@@ -12,6 +12,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { HolidayValidComponent } from './components/holiday-valid-form/holiday-valid.component';
 import { HolidaysSynthesisComponent } from './components/synthesis/synthesis.component';
 import { NewPasswordComponent } from './components/new-password/new-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -28,6 +29,7 @@ import { NewPasswordComponent } from './components/new-password/new-password.com
                 path: 'newpassword',
                 component: NewPasswordComponent
             },
+                       
             {
                 path: 'dashboard', component: AppMainComponent,
                 children: [
@@ -39,7 +41,8 @@ import { NewPasswordComponent } from './components/new-password/new-password.com
                     { path: 'valid/:id', component: HolidayValidComponent},
                     { path: 'synthesis', component: HolidaysSynthesisComponent},
                     { path: 'synthesis/:userid', component: HolidaysSynthesisComponent},
-                    {path: 'list/:userid/:year', component: HolidaysHomeComponent}
+                    {path: 'list/:userid/:year', component: HolidaysHomeComponent},
+                    {path: 'resetPassword/:id', component: ResetPasswordComponent}
                   /* 
                     {path: 'uikit/formlayout', component: FormLayoutComponent},
                     {path: 'uikit/input', component: InputComponent},

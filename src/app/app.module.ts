@@ -133,6 +133,7 @@ import { HolidayValidComponent } from './components/holiday-valid-form/holiday-v
 import { SynthesisEditFormComponent } from './components/synthesis-edit-form/synthesis-edit-form.component';
 import { HolidaysSynthesisComponent } from './components/synthesis/synthesis.component';
 import { NewPasswordComponent } from './components/new-password/new-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 //import { HolidaysModule } from './components/holidays/holidays.module';
 //import { HolidaysModule } from './components/holidays/holidays.module';
 
@@ -250,7 +251,7 @@ import { NewPasswordComponent } from './components/new-password/new-password.com
         UserListComponent,
         UserProfileComponent,
         HolidaysHomeComponent, HolidaysSynthesisComponent, SynthesisEditFormComponent , HolidayValidComponent, SynthesisDetailComponent, SynthesisDetailYearComponent,
-        NewPasswordComponent
+        NewPasswordComponent, ResetPasswordComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

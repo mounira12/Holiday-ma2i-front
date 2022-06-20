@@ -12,13 +12,13 @@
         <i class="pi pi-ellipsis-v"></i>
     </a>
 
-    <div style="margin-right:20px ;" class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active':appMain.topMenuActive}">
+    <div style="margin-right:70px ;" class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active':appMain.topMenuActive}">
         <a class="p-link layout-topbar-button">
            </a> <span style="place-self: center;">{{userName}}</span>
             <!-- <a href="#" class="p-link layout-topbar-button">
                 <i class="pi pi-user"></i>
                 <span>Profile</span>
             </a> -->
-            <p-menubar style="margin-left:20px" [model]="items"></p-menubar>
+            <p-menubar [style]="{'margin-left':'15px'}" [model]="items"></p-menubar>
     </div>
 </div>
