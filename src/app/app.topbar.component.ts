@@ -22,8 +22,9 @@ export class AppTopBarComponent implements OnInit{
                 label: '',
                 icon: 'pi pi-user',
                 items: [
-                    {label: 'Déconnexion', icon: 'pi pi-fw pi-power-off',command: () => this.logout()},
-                    {label: 'Paramètres', icon: 'pi pi-fw pi-key',command: () => this.resetPassword()}
+                    {label: 'Paramètres', icon: 'pi pi-fw pi-key',command: () => this.resetPassword()},
+                    {label: 'Déconnexion', icon: 'pi pi-fw pi-power-off',command: () => this.logout()}
+                    
                 ]
             }
         ];
